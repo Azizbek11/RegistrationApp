@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:padding="20dp"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <TextView
+        android:id="@+id/tv_login_title"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/login_to_app"
+        style="@style/Title"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tv_login_sub_title"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/login_sub_title"
+        style="@style/SubTitle"
+        app:layout_constraintTop_toBottomOf="@id/tv_login_title"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:hint="@string/login_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/TextInputLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_login_sub_title"
+        app:startIconDrawable="@drawable/ic_circle_account">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/at_email"
+            style="@style/TextInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:hint="Your password"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/TextInputLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/til_email"
+        app:startIconDrawable="@drawable/ic_circle_account">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_password"
+            style="@style/TextInputEditText"
+            android:layout_width="match_parent"
+            android:inputType="textPassword"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <TextView
+        android:id="@+id/tv_havent_account"
+        android:layout_width="match_parent"
+        style="@style/SubTitle"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/login_havent_account"
+        android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_login"
+        android:layout_marginBottom="15dp"
+        android:text="@string/btn_login"
+        android:layout_width="match_parent"
+        style="@style/ButtonGrey"
+        app:layout_constraintBottom_toTopOf="@id/tv_havent_account"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="wrap_content"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
