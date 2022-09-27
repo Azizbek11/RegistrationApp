@@ -1,4 +1,4 @@
-package admiral.group.registrationapp
+package admiral.group.registrationapp.ui.login
 
 import androidx.lifecycle.ViewModel
 

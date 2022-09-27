@@ -1,44 +1,55 @@
-package admiral.group.registrationapp
+package admiral.group.registrationapp.ui.register
 
-
-import admiral.group.registrationapp.databinding.ActivityRegistrationBinding
-import android.annotation.SuppressLint
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import admiral.group.registrationapp.R
+import admiral.group.registrationapp.databinding.FragmentLoginBinding
+import admiral.group.registrationapp.databinding.FragmentRegisterBinding
+import admiral.group.registrationapp.ui.login.LoginFragment
+import admiral.group.registrationapp.ui.login.LoginViewModel
+import admiral.group.registrationapp.ui.welcome.WelcomeViewModel
 import android.util.Patterns
-import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import com.jakewharton.rxbinding2.widget.RxTextView
-import java.util.Observable
 
+class RegisterFragment : Fragment() {
 
-class RegistrationActivity : AppCompatActivity() {
+    companion object {
+        fun newInstance() = RegisterFragment()
+    }
 
-    private lateinit var  binding: ActivityRegistrationBinding
+    private lateinit var viewModel: RegisterViewModel
+    private lateinit var binding: FragmentRegisterBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding= DataBindingUtil.inflate(inflater,R.layout.fragment_register, container, false)
+        return binding.root
 
-        super.onCreate(savedInstanceState)
-        binding = ActivityRegistrationBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this)[RegisterViewModel::class.java]
 
-        //Clicks
         binding.btnRegister.setOnClickListener {
-            if (binding.btnRegister.isEnabled){
-            startActivity(Intent(this,LoginActivity::class.java))
-                finish()
-            }
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
 
         binding.tvHavenAccount.setOnClickListener {
-            startActivity(Intent(this,LoginActivity::class.java))
-            finish()
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
 
         // FullName Validation
-        val nameStream=RxTextView.textChanges(binding.etFullname)
+        val nameStream= RxTextView.textChanges(binding.etFullname)
             .skipInitialValue()
             .map {
                     name ->
@@ -51,7 +62,7 @@ class RegistrationActivity : AppCompatActivity() {
 
         // Email validation
 
-        val emailStream =RxTextView.textChanges(binding.etEmail)
+        val emailStream = RxTextView.textChanges(binding.etEmail)
             .skipInitialValue()
             .map { email ->
                 !Patterns.EMAIL_ADDRESS.matcher(email).matches()
@@ -62,7 +73,7 @@ class RegistrationActivity : AppCompatActivity() {
 
         //Username Validation
 
-        val usernameStream=RxTextView.textChanges(binding.etUsername)
+        val usernameStream= RxTextView.textChanges(binding.etUsername)
             .skipInitialValue()
             .map { username ->
                 username.length < 6
@@ -74,7 +85,7 @@ class RegistrationActivity : AppCompatActivity() {
 
         //Password Validation
 
-        val passwordStream=RxTextView.textChanges(binding.etPassword)
+        val passwordStream= RxTextView.textChanges(binding.etPassword)
             .skipInitialValue()
             .map { password ->
                 password.length < 8
@@ -115,16 +126,16 @@ class RegistrationActivity : AppCompatActivity() {
                 isValid->
             if (isValid){
                 binding.btnRegister.isEnabled=true
-                binding.btnRegister.backgroundTintList=ContextCompat.getColorStateList(this, R.color.primary_color)
+                binding.btnRegister.backgroundTintList= ContextCompat.getColorStateList(requireActivity().applicationContext, R.color.primary_color)
             }else{
                 binding.btnRegister.isEnabled=true
-                binding.btnRegister.backgroundTintList=ContextCompat.getColorStateList(this, android.R.color.darker_gray)
+                binding.btnRegister.backgroundTintList=
+                    ContextCompat.getColorStateList(requireActivity().applicationContext, android.R.color.darker_gray)
 
             }
         }
-    }
 
-
+}
     private fun showNameExistAlert(isNotValid:Boolean){
         binding.etPassword.error=if (isNotValid) "Enter fullname" else null
     }
@@ -144,6 +155,5 @@ class RegistrationActivity : AppCompatActivity() {
     private fun showPasswordConfirmAlert(isNotValid: Boolean){
         binding.etConfirmPassword.error=if (isNotValid) "Parol bir xil emas" else null
     }
-
 
 }

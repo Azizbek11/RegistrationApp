@@ -1,49 +1,40 @@
 package admiral.group.registrationapp
 
-import admiral.group.registrationapp.databinding.ActivityMainBinding
-import admiral.group.registrationapp.databinding.ActivityRegistrationBinding
+import admiral.group.registrationapp.ui.main.MainFragment
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import dagger.hilt.android.AndroidEntryPoint
-
-
+import androidx.fragment.app.commit
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 
 class MainActivity : AppCompatActivity() {
-    private var pressedTime: Long = 0
 
-    private lateinit var  binding: ActivityMainBinding
+    private lateinit var navController: NavController
+    private lateinit var navHostFragment: NavHostFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
+        setContentView(R.layout.activity_main)
 
-        binding.btnRegister.setOnClickListener {
-            startActivity(Intent(this, RegistrationActivity::class.java))
-            finish()
-        }
-
-        binding.btnLogin.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
-
-        }
-
-
+        navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
+        navController = navHostFragment.navController
 
     }
+
     override fun onBackPressed() {
-        if (pressedTime + 2000 > System.currentTimeMillis()) {
+        Log.d("Natija",navController.currentDestination.toString())
+        if (navController.currentDestination?.label!! == "fragment_main"){
             super.onBackPressed()
-            finish()
-        } else {
-            Toast.makeText(baseContext, "Press back again to exit", Toast.LENGTH_SHORT).show()
+        }else{
+            navController.navigate(R.id.mainFragment, null)
         }
-        pressedTime = System.currentTimeMillis()
+
     }
 
 }
