@@ -3,7 +3,6 @@ package admiral.group.registrationapp.ui.login
 
 import admiral.group.registrationapp.R
 import admiral.group.registrationapp.databinding.FragmentLoginBinding
-import admiral.group.registrationapp.ui.register.RegisterViewModel
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,19 +10,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.jakewharton.rxbinding2.widget.RxTextView
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class LoginFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = LoginFragment()
-    }
+@AndroidEntryPoint
+class LoginFragment @Inject constructor() : Fragment() {
 
-    private lateinit var viewModel: LoginViewModel
+
+    private val loginViewModel: LoginViewModel by viewModels()
     private lateinit var binding: FragmentLoginBinding
 
     private lateinit var navController: NavController
@@ -40,14 +39,14 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+
 
         navHostFragment =
             activity?.supportFragmentManager?.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.navController
 
         binding.btnLogin.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+            navController.navigate(R.id.action_loginFragment_to_welcomeFragment)
         }
 
         binding.tvHaventAccount.setOnClickListener {
@@ -88,17 +87,18 @@ class LoginFragment : Fragment() {
             !usernameInvalid && !passwordInvalid
 
         }
+
         invalidFieldStream.subscribe{
                 isValid->
             if (isValid){
                 binding.btnLogin.isEnabled=true
-                binding.btnLogin.backgroundTintList= ContextCompat.getColorStateList(requireActivity().applicationContext,
+                binding.btnLogin.backgroundTintList= ContextCompat.getColorStateList(context!!,
                     R.color.primary_color
                 )
             }else{
                 binding.btnLogin.isEnabled=true
                 binding.btnLogin.backgroundTintList=
-                    ContextCompat.getColorStateList(requireActivity().applicationContext, android.R.color.darker_gray)
+                    ContextCompat.getColorStateList(context!!, android.R.color.darker_gray)
             }
         }
 

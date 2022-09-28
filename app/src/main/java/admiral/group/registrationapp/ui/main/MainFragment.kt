@@ -8,16 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import admiral.group.registrationapp.R
 import admiral.group.registrationapp.databinding.FragmentMainBinding
-import admiral.group.registrationapp.ui.register.RegisterViewModel
 
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.commit
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
-import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainFragment : Fragment()  {
 
     private lateinit var viewModel: MainViewModel

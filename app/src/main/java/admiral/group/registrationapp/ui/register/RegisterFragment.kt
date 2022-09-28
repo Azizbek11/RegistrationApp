@@ -12,19 +12,23 @@ import admiral.group.registrationapp.databinding.FragmentRegisterBinding
 import admiral.group.registrationapp.ui.login.LoginFragment
 import admiral.group.registrationapp.ui.login.LoginViewModel
 import admiral.group.registrationapp.ui.welcome.WelcomeViewModel
+import android.util.Log
 import android.util.Patterns
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.jakewharton.rxbinding2.widget.RxTextView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterFragment : Fragment() {
 
     companion object {
         fun newInstance() = RegisterFragment()
     }
-
-    private lateinit var viewModel: RegisterViewModel
+    
     private lateinit var binding: FragmentRegisterBinding
 
     override fun onCreateView(
@@ -38,15 +42,17 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[RegisterViewModel::class.java]
+       
 
         binding.btnRegister.setOnClickListener {
+
             findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
 
         binding.tvHavenAccount.setOnClickListener {
             findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
+
 
         // FullName Validation
         val nameStream= RxTextView.textChanges(binding.etFullname)
@@ -135,7 +141,7 @@ class RegisterFragment : Fragment() {
             }
         }
 
-}
+    }
     private fun showNameExistAlert(isNotValid:Boolean){
         binding.etPassword.error=if (isNotValid) "Enter fullname" else null
     }
