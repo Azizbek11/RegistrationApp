@@ -1,6 +1,7 @@
 package admiral.group.registrationapp.ui.register
 
 import admiral.group.registrationapp.data.SharedPref
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

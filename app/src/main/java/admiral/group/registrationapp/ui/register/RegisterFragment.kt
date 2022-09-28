@@ -44,18 +44,19 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[RegisterViewModel::class.java]
 
+
         binding.btnRegister.setOnClickListener {
               viewModel.saveData(
-                  binding.etFullname.text.toString(),
-                  binding.etEmail.text.toString(),
-                  binding.etUsername.text.toString(),
-                  binding.etPassword.text.toString(),
+                  binding.etFullname.text.toString().trim(),
+                  binding.etEmail.text.toString().trim(),
+                  binding.etUsername.text.toString().trim(),
+                  binding.etPassword.text.toString().trim(),
               )
             if (sharedPref.getUserName().toString().isNotEmpty()){
-                Toast.makeText(requireActivity(), sharedPref.getUserName().toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), "User is registered", Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
             }else{
-                Toast.makeText(requireActivity(), "mana", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), "User don't registered", Toast.LENGTH_SHORT).show()
             }
         }
 

@@ -52,31 +52,36 @@ class LoginFragment @Inject constructor() : Fragment() {
         var password=""
 
         viewModel.getUserName().observe(viewLifecycleOwner) {
-            userName = it
+            if (it!=null){
+                userName = it
+            }
         }
 
         viewModel.getEmail().observe(viewLifecycleOwner) {
-            email = it
+            if (it!=null){
+                email = it
+            }
         }
 
         viewModel.getPassword().observe(viewLifecycleOwner) {
-            password = it
+            if (it!=null){
+                password = it
+            }
         }
-
 
         navHostFragment =
             activity?.supportFragmentManager?.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.navController
 
         binding.btnLogin.setOnClickListener {
-            if ((binding.atEmail.text.toString()==
-                email||binding.atEmail.text.toString()==userName)&&binding.etPassword.text.toString()==
+            if ((binding.atEmail.text.toString().trim()==
+                email||binding.atEmail.text.toString().trim()==userName)&&binding.etPassword.text.toString().trim()==
                     password){
-                Toast.makeText(requireActivity(), " Success", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), "Success", Toast.LENGTH_SHORT).show()
                 navController.navigate(R.id.action_loginFragment_to_welcomeFragment)
 
             }else{
-                Toast.makeText(requireActivity(), "$email $userName $password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), "User don't found", Toast.LENGTH_SHORT).show()
             }
 
         }
