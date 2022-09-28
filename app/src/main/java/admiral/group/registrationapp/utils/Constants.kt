@@ -1,4 +1,4 @@
-package admiral.group.registrationapp.database
+package admiral.group.registrationapp.utils
 
 const val PREFERENCE_NAME = "MY_APP_PREF"
 

@@ -1,4 +1,4 @@
-package admiral.group.registrationapp.application
+package admiral.group.registrationapp.app
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

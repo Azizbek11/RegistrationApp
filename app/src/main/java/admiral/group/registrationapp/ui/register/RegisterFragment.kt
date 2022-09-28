@@ -7,28 +7,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import admiral.group.registrationapp.R
-import admiral.group.registrationapp.databinding.FragmentLoginBinding
+import admiral.group.registrationapp.data.SharedPref
 import admiral.group.registrationapp.databinding.FragmentRegisterBinding
-import admiral.group.registrationapp.ui.login.LoginFragment
-import admiral.group.registrationapp.ui.login.LoginViewModel
-import admiral.group.registrationapp.ui.welcome.WelcomeViewModel
-import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
 
+    @Inject
+    lateinit var sharedPref:SharedPref
+
+
     companion object {
         fun newInstance() = RegisterFragment()
     }
-    
+    private lateinit var viewModel:RegisterViewModel
     private lateinit var binding: FragmentRegisterBinding
 
     override fun onCreateView(
@@ -42,11 +42,21 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       
+        viewModel = ViewModelProvider(this)[RegisterViewModel::class.java]
 
         binding.btnRegister.setOnClickListener {
-
+              viewModel.saveData(
+                  binding.etFullname.text.toString(),
+                  binding.etEmail.text.toString(),
+                  binding.etUsername.text.toString(),
+                  binding.etPassword.text.toString(),
+              )
+            if (sharedPref.getUserName().toString().isNotEmpty()){
+                Toast.makeText(requireActivity(), sharedPref.getUserName().toString(), Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+            }else{
+                Toast.makeText(requireActivity(), "mana", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.tvHavenAccount.setOnClickListener {

@@ -3,14 +3,19 @@ package admiral.group.registrationapp.ui.login
 
 import admiral.group.registrationapp.R
 import admiral.group.registrationapp.databinding.FragmentLoginBinding
+import admiral.group.registrationapp.ui.main.MainViewModel
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.jakewharton.rxbinding2.widget.RxTextView
@@ -22,11 +27,12 @@ import javax.inject.Inject
 class LoginFragment @Inject constructor() : Fragment() {
 
 
-    private val loginViewModel: LoginViewModel by viewModels()
+    private lateinit var viewModel: LoginViewModel
     private lateinit var binding: FragmentLoginBinding
 
     private lateinit var navController: NavController
     private lateinit var navHostFragment: NavHostFragment
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +45,23 @@ class LoginFragment @Inject constructor() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+
+        var userName=""
+        var email=""
+        var password=""
+
+        viewModel.getUserName().observe(viewLifecycleOwner) {
+            userName = it
+        }
+
+        viewModel.getEmail().observe(viewLifecycleOwner) {
+            email = it
+        }
+
+        viewModel.getPassword().observe(viewLifecycleOwner) {
+            password = it
+        }
 
 
         navHostFragment =
@@ -46,7 +69,16 @@ class LoginFragment @Inject constructor() : Fragment() {
         navController = navHostFragment.navController
 
         binding.btnLogin.setOnClickListener {
-            navController.navigate(R.id.action_loginFragment_to_welcomeFragment)
+            if ((binding.atEmail.text.toString()==
+                email||binding.atEmail.text.toString()==userName)&&binding.etPassword.text.toString()==
+                    password){
+                Toast.makeText(requireActivity(), " Success", Toast.LENGTH_SHORT).show()
+                navController.navigate(R.id.action_loginFragment_to_welcomeFragment)
+
+            }else{
+                Toast.makeText(requireActivity(), "$email $userName $password", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
         binding.tvHaventAccount.setOnClickListener {

@@ -1,14 +1,14 @@
-package admiral.group.registrationapp.database
+package admiral.group.registrationapp.data
 
+import admiral.group.registrationapp.utils.PREFERENCE_NAME
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Singleton
 
 
 @Singleton
-class PrefRepository(@ApplicationContext context: Context) {
+class SharedPref(@ApplicationContext context: Context) {
 
     private val pref: SharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
     private val editor = pref.edit()
